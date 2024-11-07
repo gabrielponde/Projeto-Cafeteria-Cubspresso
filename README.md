@@ -43,7 +43,7 @@ O arquivo `design-prototype.fig` fora da pasta `src` contém o modelo visual e d
 
 1. **Clone este repositório**:
 ```bash
-   git clone https://github.com/seu-usuario/cubspresso.git
+   git clone https://github.com/seu-usuario/Projeto-Cafeteria-Cubspresso.git
 ```
 
 2. Navegue até o diretório do projeto:
