@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Café Americano - Cubspresso</title>
+    <link rel="stylesheet" href="styles-pages.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Metrophobic&family=Playwrite+CU:wght@100..400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <span>Cub</span>
+                <i class='bx bx-cube'></i>
+                <span>spresso</span>
+            </div>
+            <nav>
+                <button class="cart-icon" id="cartButton">
+                    <i class='bx bx-shopping-bag'></i>
+                    <div class="cart-counter" id="cartCounter" style="display: none;">0</div>
+                </button>
+            </nav>
+        </div>
+    </header>
+    <div class="back-to-home">
+        <a href="../index.html">Voltar para o início</a>
+    </div>
+    <main class="product-detail">
+        <div class="product-container">
+            <img src="../pictures/Americano.png" alt="Café Espresso" class="product-image">
+            <div class="product-info">
+                <h1>Café Americano</h1>
+                <div class="price-info">
+                    <span class="current-price">R$ 0,00</span>
+                    <span class="old-price">R$ 8,00</span>
+                </div>
+                <div class="additional-info">
+                    <i class='bx bx-leaf'></i> Vegano
+                </div>
+                <p>O café americano é um abraço suave, sem pressa, mas profundamente reconfortante. Com sua cor mais clara e sabor sutilmente diluído, ele transmite uma sensação de leveza, como um toque delicado na alma. Ao dar o primeiro gole, sua suavidade envolve o paladar, permitindo uma experiência de pura clareza e frescor. Não é intenso, mas tem o equilíbrio perfeito para quem busca um momento tranquilo, sem perder a profundidade do café. É o parceiro ideal para um dia produtivo ou para uma pausa descontraída, em que a mente pode se relaxar e se renovar.</p>
+                <label for="observacoes">Observações sobre o pedido</label>
+                <textarea id="observacoes" placeholder="Digite suas observações. Ex.: Enviar açúcar"></textarea>
+                <div class="quantity-and-cart">
+                    <div class="quantity-selector">
+                        <button onclick="decreaseQuantity()">-</button>
+                        <span id="quantity">1</span>
+                        <button onclick="increaseQuantity()">+</button>
+                    </div>
+                    <button class="buy-button" onclick="addToCart()">Comprar</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="../script.js"></script>
+</body>
+</html>
