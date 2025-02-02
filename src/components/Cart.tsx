@@ -7,7 +7,7 @@ import cowImage from '../assets/Cow.png';
 import plusImage from '../assets/Plus.svg';
 import minusImage from '../assets/Minus.svg';
 import { formatPrice } from '../utils/formatters';
-import styles from '../css/Cart.module.css';
+import styles from '../css/cart.module.css';
 
 
 function CartComponent() {
