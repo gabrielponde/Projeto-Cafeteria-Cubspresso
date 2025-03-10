@@ -1,0 +1,11 @@
+.product__tag {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--brown-400);
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-top: 4px
+}
