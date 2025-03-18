@@ -10,6 +10,7 @@ import { createRequest } from '@/utils/createRequest';
 import { useCart } from '@/hooks/useCart';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
+import { ProductTag } from '@/components/ProductTag'; // Importe o componente ProductTag
 
 export default function Product() {
   const { id } = useParams();
@@ -56,19 +57,19 @@ export default function Product() {
     try {
       const data: IProductInCart[] = await createRequest('/carrinho', 'GET');
       console.log('Carrinho atual:', data);
-  
+
       const productExistInCart = data.find(item => item.id_produto === product.id.toString());
-            console.log('Produto existe no carrinho?', productExistInCart);
-  
+      console.log('Produto existe no carrinho?', productExistInCart);
+
       let newProduct;
-  
+
       if (!productExistInCart) {
         // Adiciona produto no carrinho
         newProduct = {
           id_produto: product.id,
           nome: product.nome,
           imagem: product.imagem,
-          preco: product.preco_por, 
+          preco: product.preco_por,
           vegano: product.vegano,
           quantidade: quantity,
           observacao: observation,
@@ -85,11 +86,11 @@ export default function Product() {
         console.log('Produto atualizado:', newProduct);
         await createRequest(`/carrinho/${productExistInCart.id}`, 'PUT', newProduct);
       }
-  
+
       const newProductsCart = await createRequest('/carrinho', 'GET');
       console.log('Carrinho atualizado:', newProductsCart);
       generateNewProductInCart(newProductsCart);
-  
+
       alert('Produto adicionado ao carrinho com sucesso!');
     } catch (error) {
       console.error('Erro ao adicionar produto ao carrinho:', error);
@@ -103,16 +104,21 @@ export default function Product() {
         <a href="/" className={styles.product__link}>Voltar para o início</a>
         <section className={styles.product}>
           <div className={styles.product__containerImage}>
-            <Image src={`${product.imagem}`} className={styles.product__image} alt={product.nome} width={700} height={750}/>
+            <Image src={`${product.imagem}`} className={styles.product__image} alt={product.nome} width={700} height={750} />
           </div>
           <div className={styles.product__data}>
             <h1 className={styles.product__title}>{product.nome}</h1>
             <h2 className={styles.product__price}>{formatPrice(product.preco_por)}</h2>
-            <div className={styles.product__tag}></div>
+
+            {/* Use o componente ProductTag */}
+            <ProductTag type={product.vegano} />
+
+            {/* Descrição do produto */}
             <p className={styles.product__description}>
               {product.descricao}
             </p>
 
+            {/* Observações sobre o pedido */}
             <section className={styles.product__observation}>
               <label htmlFor="observation">Observações sobre o pedido</label>
               <textarea
@@ -124,6 +130,8 @@ export default function Product() {
                 value={observation}
               ></textarea>
             </section>
+
+            {/* Botão de compra */}
             <div className={styles.product__buy}>
               <ProductQuantity quantity={quantity} updateQuantity={updateQuantity} classes="" />
               <button type="button" className={styles.product__button} onClick={addInCart}>
