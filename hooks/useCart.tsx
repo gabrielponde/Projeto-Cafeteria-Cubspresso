@@ -47,9 +47,9 @@ export function CartProvider({ children }: CartProviderProps) {
 
 
   async function getCart() {
-    const data: IProductInCart[] = await createRequest('/carrinho', 'GET')
-    if (!data) return
-    await generateNewProductInCart(data)   
+    const data: IProductInCart[] = await createRequest('/carrinho', 'GET');
+    if (!data) return;
+    await generateNewProductInCart(data);
   }
 
   async function resetCart() {

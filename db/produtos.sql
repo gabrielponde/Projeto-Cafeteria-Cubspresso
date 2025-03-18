@@ -1,124 +1,14 @@
-# ☕ Cafeteria Cubspresso
-
-## Descrição
-Este projeto é um catálogo online de cafés, desenvolvido com Next.js. O objetivo é listar diferentes tipos de café, permitindo aos usuários visualizar informações detalhadas sobre cada um.
-
-## Funcionalidades
-- Exibição de uma lista de cafés.
-- Cada café possui um card com imagem, nome e descrição.
-- Possibilidade de visualizar detalhes de cada café.
-- Integração com um banco de dados PostgreSQL via Supabase para armazenar e recuperar dados.
-
-## Tecnologias Utilizadas
-- Next.js
-- TypeScript
-- Supabase (banco de dados PostgreSQL e API)
-- Styled Components (para estilização)
-- Cypress (para testes end-to-end)
-- Jest (para testes unitários)
-- dotenv (para gerenciamento de variáveis de ambiente)
-
-## Instalação e Execução
-1. Clone o repositório:
-```bash
-git clone https://github.com/seu-repositorio/Projeto-Cafeteria-Cubspresso.git
-```
-
-2. Acesse a pasta do projeto:
-```bash
-cd Projeto-Cafeteria-Cubspresso
-```
-
-3. Instale as dependências:
-```bash
-npm install
-```
-
-4. Configure as variáveis de ambiente:
-- Crie um arquivo .env.local na raiz do projeto.
-- Adicione as seguintes variáveis de ambiente (substitua pelos valores corretos do seu projeto Supabase):
-```bash
-NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
-```
-
-5. Inicie o projeto:
-```bash
-npm run dev
-```
-
-6. Execute os testes:
-- Testes unitários com Jest:
-```bash
-npm run test
-```
-
-- Testes end-to-end com Cypress:
-```bash
-npm run cypress:open
-```
-
-## Estrutura do Projeto
-
-/catalogo-cafe
-│── __tests__/            # Testes unitários e de integração
-│── .next/                # Build do Next.js
-│── .swc/                 # Compilação do SWC
-│── app/                  # Pasta principal da aplicação Next.js
-│── assets/               # Recursos como imagens e ícones
-│── components/           # Componentes reutilizáveis
-│── css/                  # Estilos da aplicação
-│── cypress/              # Configuração e testes Cypress
-│── hooks/                # Hooks personalizados
-│── interfaces/           # Definições de interfaces TypeScript
-│── node_modules/         # Dependências do projeto
-│── public/               # Arquivos públicos
-│── services/             # Requisições HTTP
-│── utils/                # Funções utilitárias
-│── .env.local            # Variáveis de ambiente
-│── jest.config.js        # Configuração do Jest
-│── jest.setup.js         # Configuração do Jest
-│── next-env.d.ts         # Definições de ambiente do Next.js
-│── package.json          # Dependências e scripts
-│── tsconfig.json         # Configuração do TypeScript
-│── cypress.config.ts     # Configuração do Cypress
-│── types.d.ts            # Definições globais de tipos TypeScript
-
-## Banco de Dados (Supabase)
-
-- Crie a tabela usando:
-```sql
-CREATE DATABASE cafeteria;
-```
-
-- O banco de dados PostgreSQL é gerenciado pelo Supabase. A estrutura da tabela de produtos e carrinho deve ser semelhante respectivamente a:
-```sql
 CREATE TABLE produtos (
     id SERIAL PRIMARY KEY,
-    nome VARCHAR(255) NOT NULL,
-    imagem VARCHAR(255) NOT NULL,
-    descricao TEXT NOT NULL,
-    preco_de NUMERIC NOT NULL,
-    preco_por NUMERIC NOT NULL,
-    vegano BOOLEAN NOT NULL,
-    categoria VARCHAR(255) NOT NULL
-);
-```
-```sql
-CREATE TABLE carrinho (
-    id SERIAL PRIMARY KEY,
-    id_produto INTEGER REFERENCES produtos(id) ON DELETE CASCADE,
     nome TEXT NOT NULL,
     imagem TEXT NOT NULL,
-    preco DECIMAL(10, 2) NOT NULL,
+    descricao TEXT NOT NULL,
+    preco_de DECIMAL(10, 2) NOT NULL,
+    preco_por DECIMAL(10, 2) NOT NULL,
     vegano BOOLEAN NOT NULL,
-    quantidade INTEGER NOT NULL,
-    observacao TEXT
+    categoria TEXT NOT NULL
 );
-```
 
-- Exemplo de dados na tabela produtos:
-```sql 
 INSERT INTO produtos (nome, imagem, descricao, preco_de, preco_por, vegano, categoria) VALUES
 ('Espresso', './image/product-01.png', 'Imagine um café espresso como um abraço acolhedor em uma xícara. Com sua cor profunda e rica, ele é o convite perfeito para um momento de pausa. O aroma intenso que sobe suavemente é como um caloroso cumprimento, prometendo um instante de prazer e concentração. Ao dar o primeiro gole, a textura aveludada e o sabor robusto envolvem o paladar, oferecendo um equilíbrio encantador entre a doçura e a leve amargura. É um prazer pequeno, mas incrivelmente satisfatório, ideal para um rápido reequilíbrio durante o dia. Cada xícara é uma pausa deliciosa, um momento só seu, para recarregar e seguir em frente com renovada energia e tranquilidade.', 800.00, 500.00, TRUE, 'classicos'),
 ('Americano', './image/product-02.png', 'O café americano é um abraço suave, sem pressa, mas profundamente reconfortante. Com sua cor mais clara e sabor sutilmente diluído, ele transmite uma sensação de leveza, como um toque delicado na alma. Ao dar o primeiro gole, sua suavidade envolve o paladar, permitindo uma experiência de pura clareza e frescor. Não é intenso, mas tem o equilíbrio perfeito para quem busca um momento tranquilo, sem perder a profundidade do café. É o parceiro ideal para um dia produtivo ou para uma pausa descontraída, em que a mente pode se relaxar e se renovar.', 800.00, 500.00, TRUE, 'classicos'),
@@ -132,15 +22,3 @@ INSERT INTO produtos (nome, imagem, descricao, preco_de, preco_por, vegano, cate
 ('Frappuccino', './image/product-10.png', 'O frappuccino é uma festa de frescor e doçura, onde o café encontra a indulgência em um copo gelado. Com uma textura cremosa e rica, ele combina a intensidade do café com a doçura de cremes e xaropes, criando uma experiência deliciosa e refrescante. Cada gole é um prazer gelado, que mistura a energia do café com a diversão de uma sobremesa. Perfeito para os dias quentes ou para qualquer momento que peça uma explosão de sabor e frescor.', 800.00, 500.00, FALSE, 'gelados'),
 ('Café gelado com Laranja e Tônica', './image/product-11.png', 'O café gelado com laranja e tônica é uma verdadeira explosão de frescor e sofisticação. A acidez vibrante da laranja combina com a leve efervescência da tônica, criando uma mistura única que eleva o sabor profundo do café gelado. Cada gole traz uma sensação revigorante, como uma brisa fresca em um dia quente. A tônica adiciona um toque sutilmente amargo, equilibrando a doçura da laranja e trazendo uma complexidade delicada ao sabor do café. Ideal para quem busca uma experiência refrescante, leve e energética, este café é uma verdadeira fusão de sabores que desperta os sentidos e oferece uma pausa refrescante e moderna.', 800.00, 500.00, TRUE, 'gelados'),
 ('Milk shake de Café', './image/product-12.png', 'O milkshake de café é uma mistura doce e gelada, onde o sabor do café se encontra com a cremosidade do leite e a indulgência do sorvete. Cada gole é como uma viagem para um mundo de prazer, com a doçura do leite e a intensidade do café criando uma harmonia perfeita. É como um momento de diversão e prazer, ideal para quem quer saborear o melhor dos dois mundos: a energia do café com a suavidade de um milkshake gelado. Um prazer doce e refrescante, perfeito para qualquer hora do dia.', 1000.00, 800.00, FALSE, 'gelados');
-```
-
-## Licença
-
-Este projeto está sob a Licença MIT - veja o arquivo LICENSE para mais detalhes.
-
-## Contato
-
-Se tiver dúvidas ou sugestões, entre em contato:
-
-Gabriel Avena
-GitHub: github.com/gabrielponde

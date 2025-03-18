@@ -1,8 +1,8 @@
-'use client'
-import styles from '../css/ProductInCart.module.css'
+'use client';
+import styles from '../css/ProductInCart.module.css';
 import { IProductInCart } from '../interfaces/productInCart.interface';
 import { formatPrice } from '../utils/formatPrice';
-import deleteImage from '../assets/Trash.svg'
+import deleteImage from '../assets/Trash.svg';
 import { ProductTagCart } from './ProductTagInCart';
 import { useState } from 'react';
 import { createRequest } from '../utils/createRequest';
@@ -10,16 +10,16 @@ import { useCart } from '../hooks/useCart';
 import { ProductQuantity } from './ProductQuantity';
 import Image from 'next/image';
 
-interface ProductIncart__props {
-  item: IProductInCart
+interface ProductIncartProps {
+  item: IProductInCart;
 }
 
-export function ProductInCart({ item }: ProductIncart__props) {
+export function ProductInCart({ item }: ProductIncartProps) {
   const { generateNewProductInCart, cart } = useCart();
   const [quantity, setQuantity] = useState(item.quantidade);
 
-  async function updateQuantityInCart(type: 'plus' | 'minus') {
-    let newQuantity = item.quantidade;
+  const handleUpdateQuantity = async (type: 'plus' | 'minus') => {
+    let newQuantity = quantity;
 
     if (type === 'plus') {
       newQuantity = newQuantity + 1;
@@ -33,12 +33,12 @@ export function ProductInCart({ item }: ProductIncart__props) {
 
     const productInCart = {
       ...item,
-      quantidade: newQuantity
+      quantidade: newQuantity,
     };
 
-    await createRequest(`/carrinho/${item.id}`, 'put', productInCart);
+    await createRequest(`/carrinho/${item.id}`, 'PUT', productInCart);
 
-    const newProductsCart = cart.items.map(i => {
+    const newProductsCart = cart.items.map((i) => {
       if (i.id === productInCart.id) {
         return productInCart;
       }
@@ -46,17 +46,16 @@ export function ProductInCart({ item }: ProductIncart__props) {
     });
 
     generateNewProductInCart(newProductsCart);
-  }
+  };
 
-  async function deleteProductInCart() {
+  const handleDeleteProduct = async () => {
     if (!confirm('Tem certeza que deseja excluir este produto?')) return;
 
-    await createRequest(`/carrinho/${item.id}`, 'delete');
+    await createRequest(`/carrinho/${item.id}`, 'DELETE');
 
-    const newProductsInCart = cart.items.filter(i => i.id !== item.id);
-
+    const newProductsInCart = cart.items.filter((i) => i.id !== item.id);
     generateNewProductInCart(newProductsInCart);
-  }
+  };
 
   return (
     <div className={styles.cart__product} data-id="produtoId">
@@ -70,21 +69,26 @@ export function ProductInCart({ item }: ProductIncart__props) {
         <div className={styles.cart__productRow}>
           <div className={styles.cart__productColumn}>
             <h2 className={styles.cart__productName}>{item.nome}</h2>
-
             <ProductTagCart type={item.vegano} />
           </div>
 
-          <button className={styles.cart__productDelete} onClick={deleteProductInCart}>
+          <button
+            className={styles.cart__productDelete}
+            onClick={handleDeleteProduct}
+          >
             <Image src={deleteImage} alt="Deletar produto" />
           </button>
         </div>
 
         <div className={styles.cart__productRow}>
           <h3 className={styles.cart__productPrice}>{formatPrice(item.preco)}</h3>
-
-          <ProductQuantity quantity={quantity} updateQuantity={updateQuantityInCart} classes="cart__productQuantity" />
+          <ProductQuantity
+            quantity={quantity}
+            updateQuantity={handleUpdateQuantity}
+            classes="cart__productQuantity"
+          />
         </div>
-        
+
         {item.observacao && (
           <p className={styles.cart__productObservation}>
             <strong>Observação:</strong> {item.observacao}

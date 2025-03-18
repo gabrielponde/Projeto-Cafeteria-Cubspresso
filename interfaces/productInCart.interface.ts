@@ -1,6 +1,6 @@
 export interface IProductInCart {
   id: string
-  idProduto: string
+  id_produto: string
   nome: string
   imagem: string
   descricao: string

@@ -22,16 +22,27 @@ export default function Home() {
     getProducts()
   }, [])
 
-  async function getProducts() {
-    const data: IProduct[] =  await createRequest(`/produtos`, 'GET')
-    console.log('data:  ',data)
-    const productsClassics = data.filter(p => p.categoria === 'classicos')
-    const productsFrozen = data.filter(p => p.categoria === 'gelados')
+async function getProducts() {
+  console.log('Buscando produtos do Supabase...');
+  try {
+    const data: IProduct[] = await createRequest('/produtos', 'GET');
+    console.log('Produtos retornados:', data);
+
+    if (!data || data.length === 0) {
+      console.warn('Nenhum produto encontrado no banco de dados.');
+      return;
+    }
+
+    const productsClassics = data.filter(p => p.categoria === 'classicos');
+    const productsFrozen = data.filter(p => p.categoria === 'gelados');
     setProducts({
       productsClassics,
       productsFrozen
-    })
+    });
+  } catch (error) {
+    console.error('Erro ao buscar produtos:', error);
   }
+}
 
   return (
     <main>

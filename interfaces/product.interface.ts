@@ -1,14 +1,10 @@
-interface IProductPreco {
-  de: number
-  por: number
-}
-
 export interface IProduct {
-  id: string
-  nome: string
-  imagem: string
-  descricao: string
-  preco: IProductPreco
-  vegano: boolean
-  categoria: 'gelados' | 'classicos'
+  id: number; // Alterado para number, pois o Supabase usa int4
+  nome: string;
+  imagem: string;
+  descricao: string;
+  preco_de: number; // Preço original
+  preco_por: number; // Preço com desconto
+  vegano: boolean;
+  categoria: 'gelados' | 'classicos';
 }
