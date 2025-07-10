@@ -8,6 +8,7 @@ import {
 } from 'react';
 import { createRequest } from '../utils/createRequest';
 import { IProductInCart, ICart } from '../interfaces/productInCart.interface';
+import { useAuth } from './useAuth';
 
 //context
 interface CartContextProps {
@@ -35,6 +36,7 @@ export function CartProvider({ children }: CartProviderProps) {
   })
 
   const [openModalCart, setOpenModalCart] = useState(false)
+  const { user } = useAuth(); // Usar o hook useAuth
 
   function toggleModalCart() {
     setOpenModalCart(!openModalCart)
@@ -67,6 +69,11 @@ export function CartProvider({ children }: CartProviderProps) {
   }
 
   function checkout() {
+    if (!user) {
+      alert('Você precisa estar logado para finalizar a compra.');
+      window.location.href = '/login';
+      return;
+    }
     alert('Compra Finalizada Com Sucesso!!')
   }
   

@@ -9,12 +9,14 @@ import { ProductQuantity } from '@/components/ProductQuantity';
 import { createRequest } from '@/utils/createRequest';
 import { useCart } from '@/hooks/useCart';
 import { useParams } from 'next/navigation';
+import { useAuth } from '@/hooks/useAuth';
 import Image from 'next/image';
 import { ProductTag } from '@/components/ProductTag'; // Importe o componente ProductTag
 
 export default function Product() {
   const { id } = useParams();
   const { generateNewProductInCart } = useCart();
+  const { user } = useAuth(); // Usar o hook useAuth
   const [quantity, setQuantity] = useState(1);
   const [observation, setObservation] = useState('');
 

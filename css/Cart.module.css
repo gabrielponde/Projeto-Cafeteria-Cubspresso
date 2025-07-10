@@ -176,6 +176,11 @@
   line-height: 24px; /* 100% */
 }
 
+.cart__buy:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .cart__productObservation {
   padding-top: 0px;
 }

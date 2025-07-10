@@ -45,7 +45,12 @@ export function Cart() {
           <h3 className={styles.cart__footerPrice}>{formatPrice(cart.total)}</h3>
         </div>
         <div className={`${styles.cart__footerRow} ${styles.cart__footerBuy}`}>
-          <button type="button" className={styles.cart__buy} onClick={checkout}>
+          <button 
+            type="button" 
+            className={styles.cart__buy} 
+            onClick={checkout}
+            disabled={cart.quantityItemInCart === 0} // Desabilita se o carrinho estiver vazio
+          >
             Finalizar compra
           </button>
         </div>

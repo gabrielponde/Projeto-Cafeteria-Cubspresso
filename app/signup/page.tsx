@@ -1,0 +1,91 @@
+'use client'
+
+import { useState } from 'react';
+import styles from '@/css/Signup.module.css';
+import Image from 'next/image';
+import logoImage from '@/assets/logo.svg';
+
+export default function Signup() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
+
+  const handleSignup = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setLoading(true);
+    setError(null);
+    setMessage(null);
+
+    try {
+      const response = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Erro ao registrar usuário');
+      }
+
+      setMessage(data.message || 'Usuário registrado com sucesso!');
+      // Opcional: Redirecionar para a página de login após o registro bem-sucedido
+      // router.push('/login');
+
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.formWrapper}>
+        <div className={styles.logoContainer}>
+          <Image src={logoImage} alt="Cubspresso Logo" width={150} height={150} />
+        </div>
+        <h1 className={styles.title}>Crie sua Conta</h1>
+        <form onSubmit={handleSignup} className={styles.form}>
+          <div className={styles.inputGroup}>
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              placeholder="Seu email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className={styles.input}
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <label htmlFor="password">Senha</label>
+            <input
+              id="password"
+              type="password"
+              placeholder="Sua senha (mínimo 6 caracteres)"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className={styles.input}
+            />
+          </div>
+          <button type="submit" disabled={loading} className={styles.button}>
+            {loading ? 'Carregando...' : 'Registrar'}
+          </button>
+          {error && <p className={styles.error}>{error}</p>}
+          {message && <p className={styles.message}>{message}</p>}
+        </form>
+        <p className={styles.loginText}>
+          Já tem uma conta? <a href="/login">Faça login!</a>
+        </p>
+      </div>
+    </div>
+  );
+} 
